@@ -25,4 +25,4 @@ def calculate_profit():
         print(f'При росте цены акции {ticker.upper()} до {int(target_price)} долларов за штуку стоимость всех акций {ticker.upper()} составит {int(target_price * total_quantity)} долларов США')
         print(f'EBITDA составит {int((target_price * total_quantity) - (middle_result * total_quantity))} долларов США')
         answer = input(f'Хотите рассчитать прибыль при изменении таргета цены на {ticker.upper()} (да/нет?): ')
-    print('Благодарю за пользование программлй!')
+    print('Благодарю за пользование программой!')
