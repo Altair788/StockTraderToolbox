@@ -7,22 +7,35 @@
 #                                   py_root_dev
 
 
-def calculate_profit():
-    ticker = input('Введите название тикера: ')
-    base_value = float(input('Введите базовую стоимость: '))
-    count = float(input('На какую сумму будете докупать актив?: '))
-    price_buy = float(input('По какой цене будете покупать?: '))
-    quantity_plan_buy = count / price_buy  # плановое количество к покупке
-    current_quantity = float(input('Введите текущее количество акций: '))
-    middle_result = (base_value + count) / (current_quantity + quantity_plan_buy)
-    total_quantity = current_quantity + quantity_plan_buy
-    print(f'Средняя стоимость 1 акции {ticker.upper()} после докупки составит {int(middle_result)} долларов США')
-    print(f'Итоговая стоимость всех акций {ticker.upper()} составит: {middle_result * total_quantity}')
 
-    answer = input(f'Хотите рассчитать прибыль при изменении таргета цены на {ticker.upper()} (введите да(y) или нет(n)): ')
-    while answer.lower() != 'нет' and answer.lower() != 'n':
-        target_price = float(input(f'Введите target по цене на {ticker.upper()}: '))
-        print(f'При росте цены акции {ticker.upper()} до {int(target_price)} долларов за штуку стоимость всех акций {ticker.upper()} составит {int(target_price * total_quantity)} долларов США')
-        print(f'EBITDA составит {int((target_price * total_quantity) - (middle_result * total_quantity))} долларов США')
-        answer = input(f'Хотите рассчитать прибыль при изменении таргета цены на {ticker.upper()} (да/нет?): ')
-    print('Благодарю за пользование программой!')
+def calculate_profit():
+    try:
+        ticker = input('Введите название тикера: ')
+        base_value = float(input('Введите базовую стоимость: '))
+        count = float(input('На какую сумму будете докупать актив?: '))
+        price_buy = float(input('По какой цене будете покупать?: '))
+        quantity_plan_buy = count / price_buy  # плановое количество к покупке
+        current_quantity = float(input('Введите текущее количество акций: '))
+
+        # Добавлена обработка исключений для предотвращения ошибок при вводе данных
+        try:
+            total_quantity = current_quantity + quantity_plan_buy
+            middle_result = (base_value + count) / total_quantity
+            print(f'Средняя стоимость 1 акции {ticker.upper()} после докупки составит {int(middle_result)} долларов США')
+            print(f'Итоговая стоимость всех акций {ticker.upper()} составит: {middle_result * total_quantity}')
+
+            answer = input(f'Хотите рассчитать прибыль при изменении таргета цены на {ticker.upper()} (введите да(y) или нет(n)): ')
+            while answer.lower().strip() != 'нет' and answer.lower().strip() != 'n':
+                target_price = float(input(f'Введите target по цене на {ticker.upper()}: '))
+                print(f'При росте цены акции {ticker.upper()} до {int(target_price)} долларов за штуку стоимость всех акций {ticker.upper()} составит {int(target_price * total_quantity)} долларов США')
+                print(f'EBITDA составит {int((target_price * total_quantity) - (middle_result * total_quantity))} долларов США')
+                answer = input(f'Хотите рассчитать прибыль при изменении таргета цены на {ticker.upper()} (да/нет?): ')
+            print('Благодарю за пользование программой!')
+
+        except ValueError:
+            print('Ошибка при вводе данных. Пожалуйста, введите числовые значения корректно.')
+
+    except ValueError:
+        print('Ошибка при вводе данных. Пожалуйста, введите числовые значения корректно.')
+
+calculate_profit()
